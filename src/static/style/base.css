@@ -1,0 +1,28 @@
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #f7f7f7;
+}
+
+.subTitle {
+    display: inline-block;
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+}
+
+.active {
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+
+.container {
+    width: auto;
+    padding: 20px;
+    margin-left: 200px;
+}

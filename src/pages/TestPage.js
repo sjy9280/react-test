@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 
-class countDown extends Component {
+class TestPage extends Component {
   render() {
     return (
       <div>
-
+        测试页面
       </div>
-    )
+    );
   }
 }
+
+export default TestPage

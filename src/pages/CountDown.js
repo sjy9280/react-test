@@ -45,7 +45,7 @@ function CountDown() {
 
   return (
     <div>
-      <DatePicker showTime onOk={ changeTime } key={ timeReset }/>
+      <DatePicker showTime onChange={ changeTime } key={ timeReset } showNow={ false }/>
       <br/>
       <span>
         倒计时：{ resultState }

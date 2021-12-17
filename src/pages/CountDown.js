@@ -1,10 +1,11 @@
-import { DatePicker } from "antd";
+import { DatePicker, message } from "antd";
 import { useEffect, useState } from "react";
 
 function CountDown() {
 
   const [resultState, setResultState] = useState('00:00:00')
   const [timeState, setTimeState] = useState(0)
+  const [timeReset, setTimeResetState] = useState(0)
 
   useEffect((timer) => {
     if (timeState > 0) {
@@ -20,10 +21,11 @@ function CountDown() {
     const now = new Date().getTime()
     const selectTime = new Date(value).getTime()
     if (now > selectTime) {
-      alert('不可以选择过去的时间')
+      message.error('不可以选择过去的时间', 1)
       setTimeState(0)
       setResultState("00:00:00")
-      return
+      setTimeResetState(new Date())
+      return false
     }
     setTimeState(selectTime)
   }
@@ -43,7 +45,7 @@ function CountDown() {
 
   return (
     <div>
-      <DatePicker showTime onOk={ changeTime }/>
+      <DatePicker showTime onOk={ changeTime } key={ timeReset }/>
       <br/>
       <span>
         倒计时：{ resultState }

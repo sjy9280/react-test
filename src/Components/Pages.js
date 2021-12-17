@@ -7,6 +7,7 @@ class Pages extends Component {
   render() {
     return (
       <div className={ 'container' }>
+        <Route path='/' component={ CountDown } exact/>
         <Route path='/countdown' component={ CountDown }/>
         <Route path='/test' component={ TestPage }/>
       </div>

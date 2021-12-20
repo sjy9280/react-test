@@ -26,3 +26,15 @@
     padding: 20px;
     margin-left: 200px;
 }
+
+.block-title {
+    font-size: 20px;
+    font-weight: bolder;
+    margin: 10px 0;
+}
+
+.create-sku-line {
+    margin: 10px 0;
+}
+
+

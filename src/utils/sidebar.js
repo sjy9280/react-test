@@ -6,7 +6,12 @@ export const sidebar = [
   },
   {
     id: '2',
-    title: '测试',
+    title: 'sku',
+    path: '/sku'
+  },
+  {
+    id: '999',
+    title: '测试页面',
     path: '/test'
   }
 ]

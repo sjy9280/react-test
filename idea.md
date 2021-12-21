@@ -11,30 +11,24 @@
    存储
 
    ```json
-   //colorList
-   
-   colorList = [
-     
-   ]
-   
-   //sizeList
-   
-   sizeList = [
-     
-   ]
-   
-   //storageList
-   storageList = [
-     
-   ]
-   
-   //skuList
-   skuList = [
-     {
-      
-     }
-   ]
+   {
+     attr: {
+       color: [],
+       size: [],
+       storage: []
+     },
+     sku: [{
+       inventory：0，
+       price:1,
+       spec:[
+       	{name:'',value:''},
+         {name:'',value:''}
+       ]
+     }]
+   }
    ```
+
+   \[1,2,3]\[4,5][6,7]
 
    
 

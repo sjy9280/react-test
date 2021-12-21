@@ -1,52 +1,55 @@
 import React from "react";
 import BlockTitle from "../../../Components/BlockTitle";
-import { PlusOutlined } from "@ant-design/icons";
-import { Input } from 'antd'
-import { addColor, editColor, selectColorList } from "../../../features/sku/colorSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import '../../../static/style/sku.css'
-import { addSize, selectSizeList } from "../../../features/sku/sizeSlice";
-import { addStorage, selectStorageList } from "../../../features/sku/storageSlice";
+import { addAttr, deleteAttr, editAttr, selectAttr } from "../../../features/sku/skuSlice";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { Input, Table } from "antd";
 
 function CreateSku(props) {
-  const colorList = useSelector(selectColorList)
-  const sizeList = useSelector(selectSizeList)
-  const storageList = useSelector(selectStorageList)
+  const sku = useSelector(selectAttr)
   const dispatch = useDispatch()
+  const columns = [{
+    title: 'id',
+    dataIndex: 'id',
+  }, {
+    title: '样式',
+    dataIndex: 'spec',
+  }, {
+    title: '库存',
+    dataIndex: 'inventory'
+  }]
 
-  function editColorList(index, ev) {
+  function changeInput(attrIndex, valueIndex, ev) {
     const value = ev.target.value
-    dispatch(editColor({ index, value }))
+    dispatch(editAttr({ attrIndex, valueIndex, value }))
   }
 
   return (
     <div>
       <BlockTitle title={ '创建SKU' }/>
-      <div className={ 'sku-specification' }>
-        颜色：<PlusOutlined onClick={ () => dispatch(addColor()) }/>
-        <div>
-          { colorList.map((item, index) => {
-            return <Input value={ item } key={ index } onChange={  editColorList.bind(this,index) }/>
-          }) }
-        </div>
-      </div>
-      <div className={ 'sku-specification' }>
-        尺码：<PlusOutlined onClick={ () => dispatch(addSize()) }/>
-        <div>
-          { sizeList.map((item, index) => {
-            return <Input value={ item } key={ index }/>
-          }) }
-        </div>
-      </div>
-      <div className={ 'sku-specification' }>
-        存储：<PlusOutlined onClick={ () => dispatch(addStorage()) }/>
-        <div>
-          { storageList.map((item, index) => {
-            return <Input value={ item } key={ index }/>
-          }) }
-        </div>
-      </div>
+      {
+        sku.attr.map((item, attrIndex) => {
+          return (
+            <div className={ 'sku-specification' } key={ attrIndex }>
+              <span>{ item.name }:</span><PlusOutlined onClick={ () => dispatch(addAttr(attrIndex)) }/>
+              <div>
+                {
+                  item.value.map((item1, valueIndex) => {
+                    return <Input value={ item1 } key={ valueIndex }
+                                  onChange={ changeInput.bind(this, attrIndex, valueIndex) }/>
+                  })
+                }
+                { item.value.length > 0 ? <DeleteOutlined onClick={ () => dispatch(deleteAttr(attrIndex)) }/> : '' }
+              </div>
+            </div>
+          )
+        })
+      }
+
+      <Table columns={ columns } dataSource={ sku.skuList } bordered/>
+
     </div>
   )
 }

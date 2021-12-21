@@ -6,11 +6,9 @@ import './static/style/reset.css'
 import './static/style/base.css'
 import "antd/dist/antd.css";
 
-import { createStore } from 'redux'
 import { Provider } from "react-redux";
-import SkuReducer from './Store/Reducers/Sku.Reducer'
+import store from './Store/store'
 
-const store = createStore(SkuReducer)
 
 
 ReactDOM.render(

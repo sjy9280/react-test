@@ -1,6 +1,6 @@
 .sidebar {
     width: 200px;
-    height: 100vh;
+    height: 100%;
     position: absolute;
     left: 0;
     top: 0;
@@ -25,6 +25,7 @@
     width: auto;
     padding: 20px;
     margin-left: 200px;
+    overflow: auto;
 }
 
 .block-title {

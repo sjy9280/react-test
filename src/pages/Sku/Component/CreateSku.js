@@ -46,6 +46,7 @@ function CreateSku(props) {
     dispatch(editAttr({ attrIndex, valueIndex, value }))
   }
 
+
   return (
     <div>
       <BlockTitle title={ '创建SKU' }/>
@@ -68,7 +69,7 @@ function CreateSku(props) {
         })
       }
 
-      <EditableTable columns={ columns } dataSource={ sourceDate } bordered/>
+      { sku.skuList.length > 0 ? <EditableTable columns={ columns } dataSource={ sourceDate } bordered/> : '' }
 
     </div>
   )

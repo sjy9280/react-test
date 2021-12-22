@@ -1,7 +1,7 @@
 import { Component } from "react";
 import ChooseSku from "./Component/ChooseSku";
 import CreateSku from "./Component/CreateSku";
-import ShowSku from "./Component/ShowSku";
+import './index.css'
 
 class Sku extends Component {
   render() {
@@ -9,7 +9,6 @@ class Sku extends Component {
       <div>
         <CreateSku/>
         <ChooseSku/>
-        <ShowSku/>
       </div>
     )
   }

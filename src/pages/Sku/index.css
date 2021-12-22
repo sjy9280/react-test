@@ -1,0 +1,19 @@
+.sku-attr {
+    padding: 10px;
+}
+
+
+.attr-choice {
+    margin: 10px 0;
+}
+
+.interval-space {
+    margin-right: 10px;
+}
+
+.choose-border{
+    width: 400px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+}

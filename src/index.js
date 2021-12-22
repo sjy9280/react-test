@@ -6,6 +6,7 @@ import './static/style/reset.css'
 import './static/style/base.css'
 import "antd/dist/antd.css";
 
+
 import { Provider } from "react-redux";
 import store from './Store/store'
 

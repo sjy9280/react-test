@@ -30,29 +30,21 @@ function addNewAttr(head, choice) {
 }
 
 export const skuSlice = createSlice({
-  name: 'size',
+  name: 'sku',
   initialState: {
     attr: [
       {
         name: '颜色',
-        value: ['黑色']
+        value: ['黑色', '银色']
       }, {
         name: '尺寸',
-        value: ['13.3']
+        value: ['13.3', '15']
       }, {
         name: '存储',
-        value: ['128', '256']
+        value: ['128', '256', '512']
       }
     ],
-    skuList: [{
-      id: 0,
-      inventory: '11',
-      spec: ['黑色', '13.3', '128']
-    }, {
-      id: 0,
-      inventory: '12',
-      spec: ['黑色', '13.3', '256']
-    }]
+    skuList: []
   },
   reducers: {
     addAttr: (state, action) => {
@@ -70,11 +62,14 @@ export const skuSlice = createSlice({
       const attrIndex = action.payload
       state.attr[attrIndex].value.pop()
       state.skuList = attrArrange(state.attr)
+    },
+    editInventory: (state, action) => {
+      state.skuList[action.payload.row.id].inventory = action.payload.row.inventory
     }
   }
 })
 
-export const { addAttr, editAttr, deleteAttr } = skuSlice.actions
+export const { addAttr, editAttr, deleteAttr, editInventory } = skuSlice.actions
 export const selectAttr = state => state.sku
 
 export default skuSlice.reducer

@@ -5,7 +5,7 @@ import Pages from "./Pages";
 class Container extends Component {
   render() {
     return (
-      <div>
+      <div className={'box'}>
         <SideBar/>
         <Pages/>
       </div>

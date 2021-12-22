@@ -8,7 +8,7 @@ function attrArrange(attr) {
   }
   let skuList = []
   for (let i = 0; i < head.length; i++) {
-    skuList.push({ id: i, inventory: '', spec: head[i] })
+    skuList.push({ id: i, inventory: '0', spec: head[i] })
   }
   return skuList
 }
@@ -35,16 +35,24 @@ export const skuSlice = createSlice({
     attr: [
       {
         name: '颜色',
-        value: ['黑色', '银色']
+        value: ['黑色']
       }, {
         name: '尺寸',
-        value: ['13.3', '15']
+        value: ['13.3']
       }, {
         name: '存储',
         value: ['128', '256']
       }
     ],
-    skuList: []
+    skuList: [{
+      id: 0,
+      inventory: '11',
+      spec: ['黑色', '13.3', '128']
+    }, {
+      id: 0,
+      inventory: '12',
+      spec: ['黑色', '13.3', '256']
+    }]
   },
   reducers: {
     addAttr: (state, action) => {

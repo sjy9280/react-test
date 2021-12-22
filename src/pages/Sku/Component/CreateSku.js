@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import '../../../static/style/sku.css'
 import { addAttr, deleteAttr, editAttr, selectAttr } from "../../../features/sku/skuSlice";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import { Form, Input, Table } from "antd";
+import { Input } from "antd";
+import EditableTable from "../../../Components/EditableTable";
 
 function CreateSku(props) {
   const sku = useSelector(selectAttr)
@@ -26,6 +27,7 @@ function CreateSku(props) {
   }, {
     title: '库存',
     dataIndex: 'inventory',
+    width: '20%',
     editable: true
   }]
 
@@ -43,21 +45,6 @@ function CreateSku(props) {
     const value = ev.target.value
     dispatch(editAttr({ attrIndex, valueIndex, value }))
   }
-
-  const EditableContext = React.createContext(null);
-
-  const EditableRow = ({ index, ...props }) => {
-    const [form] = Form.useForm();
-    return (
-      <Form form={form} component={false}>
-        <EditableContext.Provider value={form}>
-          <tr {...props} />
-        </EditableContext.Provider>
-      </Form>
-    );
-  };
-
-  
 
   return (
     <div>
@@ -81,7 +68,7 @@ function CreateSku(props) {
         })
       }
 
-      <Table columns={ columns } dataSource={ sourceDate } bordered/>
+      <EditableTable columns={ columns } dataSource={ sourceDate } bordered/>
 
     </div>
   )

@@ -11,7 +11,12 @@
     margin-right: 10px;
 }
 
-.choose-border{
+.selected {
+    color: #40a9ff;
+    border-color: #40a9ff;
+}
+
+.choose-border {
     width: 400px;
     padding: 20px;
     background-color: #f7f7f7;

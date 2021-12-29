@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
+// 组合生成
 function attrArrange(attr) {
   let head = attr[0].value
   for (let i = 1; i < attr.length; i++) {

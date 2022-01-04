@@ -7,8 +7,14 @@
     margin: 10px 0;
 }
 
-.interval-space {
+.sku-btn {
+    background-color: #FFFFFF;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 5px 15px;
     margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .selected {
@@ -16,9 +22,39 @@
     border-color: #40a9ff;
 }
 
+.disabled {
+    color: grey;
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
 .choose-border {
     width: 400px;
     padding: 20px;
     background-color: #f7f7f7;
     border-radius: 10px;
+}
+
+.buy-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.buy-num {
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+
+.buy-btn {
+    padding: 10px;
+}
+
+.buy-btn .ant-btn-round {
+    width: 100%;
 }

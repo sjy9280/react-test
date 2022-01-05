@@ -36,13 +36,16 @@ export const skuSlice = createSlice({
     attr: [
       {
         name: '颜色',
-        value: ['黑色', '银色']
+        value: []
+        // ['黑色', '银色']
       }, {
         name: '尺寸',
-        value: ['13.3', '15']
+        value: []
+        // ['13.3', '15']
       }, {
         name: '存储',
-        value: ['128', '256', '512']
+        value: []
+        // ['128', '256', '512']
       }
     ],
     skuList: []

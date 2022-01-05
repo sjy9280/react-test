@@ -17,7 +17,7 @@ function ChooseSku() {
   // 购买数量
   const [buyNumState, setBuyNumState] = useState(1)
   // sku数量
-  const [skuNum, setSkuNum] = useState(1)
+  const [skuNum, setSkuNum] = useState(0)
 
 
   // 初始化按钮状态
@@ -184,6 +184,12 @@ function ChooseSku() {
         }
       })
     } else {
+      for (let i = 0; i < sku.skuList.length; i++) {
+        if (contain(sku.skuList[i].spec, selectedAttrValue)) {
+          setSkuNum(sku.skuList[i].inventory)
+        }
+      }
+
       Object.keys(btn).forEach(attrItem => {
         let newSelectValue = []
         Object.keys(select).forEach(item => {
@@ -243,7 +249,11 @@ function ChooseSku() {
         }
         {
           <div className={ 'buy-block' }>
-            <span>数量：</span>
+            <span>数量：
+              {
+                skuNum > 0 ? '库存' + skuNum : ''
+              }
+            </span>
             <div>
               <MinusOutlined style={ { marginRight: 10 + 'px' } } onClick={ () => minusProduct() }/>
               <div className={ 'buy-num' }>{ buyNumState }</div>
@@ -253,7 +263,8 @@ function ChooseSku() {
         }
         {
           <div className={ 'buy-btn' }>
-            <Button type="primary" shape="round" size={ 'large' } onClick={ () => addToShopping() }>加入购物车</Button>
+            <Button type="primary" shape="round" size={ 'large' } disabled={ buyNumState > skuNum || skuNum === 0 }
+                    onClick={ () => addToShopping() }>加入购物车</Button>
           </div>
         }
       </div>

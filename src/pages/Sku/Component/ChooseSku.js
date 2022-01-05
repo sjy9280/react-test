@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { selectAttr } from "../../../features/sku/skuSlice";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
-import { contain } from "../../../utils/util";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
+import { contain } from "../../../utils/util";
 
 function ChooseSku() {
   const sku = useSelector(selectAttr)
@@ -53,57 +53,11 @@ function ChooseSku() {
     return skuBtn
   }
 
-  // 选择后按钮的状态变化
-  function changeBtnState() {
-    let attr = []
-    let attrValue = []
-    Object.keys(selectState).forEach(item => {
-      attr.push(item)
-      attrValue.push(selectState[item])
-    })
-
-    let btn = { ...btnState }
-
-    if (Object.keys(selectState).length > 0) {
-      if (Object.keys(selectState).length > 0) {
-        Object.keys(btn).forEach(attrItem => {
-          if (!attr.includes(attrItem)) {
-            btnState[attrItem].forEach((item, index) => {
-              let count = 0
-              let newAttrValue = [...attrValue, item.value]
-              for (let i = 0; i < sku.skuList.length; i++) {
-                if (contain(sku.skuList[i].spec, newAttrValue)) {
-                  if (parseInt(sku.skuList[i].inventory) !== 0) {
-                    count++
-                  }
-                }
-              }
-              btn[attrItem][index].disabled = count === 0;
-            })
-          }
-        })
-        setBtnState(btn)
-      }
-    } else {
-      initBtnState()
-    }
-
-    if (Object.keys(selectState).length === sku.attr.length) {
-      for (let i = 0; i < sku.skuList.length; i++) {
-        if (contain(sku.skuList[i].spec, attrValue)) {
-          setSkuNum(sku.skuList[i].inventory)
-        }
-      }
-    }
-  }
-
   // 加入购物车
   function addToShopping() {
     if (Object.keys(selectState).length < sku.attr.length) {
       checkSku()
     }
-
-
   }
 
   // 检查sku属性是否已选择
@@ -114,9 +68,7 @@ function ChooseSku() {
     })
 
     let unselected = Object.keys(btnState).filter(item => {
-      if (!attr.includes(item)) {
-        return item
-      }
+      return !attr.includes(item)
     })
 
     let msg = ''
@@ -142,30 +94,124 @@ function ChooseSku() {
   }
 
   useEffect(() => {
-    changeBtnState()
-  }, [selectState])
-
-  useEffect(() => {
     initBtnState()
   }, [sku])
 
+  // 点击按钮，选择
   function clickBtn(attr, index) {
     const btn = { ...btnState }
     const select = { ...selectState }
+
+    // 按钮选择状态修改
     btn[attr][index].selected = !btn[attr][index].selected
+
+    // 按钮选中
     if (btn[attr][index].selected) {
-      btn[attr].forEach((item, pos) => {
-        if (pos !== index) {
-          if (item.selected) {
+
+      if (attr in select) {
+        // 需要将之前选中的状态修改为为选中
+        btn[attr].forEach((item, pos) => {
+          if (pos !== index && item.selected) {
             item.selected = false
+
           }
-        }
-      })
+        })
+      }
       select[attr] = btn[attr][index].value
     } else {
+      // 按钮取消选中
       delete select[attr]
     }
 
+    // // 将按钮状态初始化
+    Object.keys(btn).forEach(attrItem => {
+      for (let i = 0; i < btn[attrItem].length; i++) {
+        let count = 0
+        for (let j = 0; j < sku.skuList.length; j++) {
+          if (sku.skuList[j].spec.includes(btn[attrItem][i].value)) {
+            if (parseInt(sku.skuList[j].inventory) !== 0) {
+              count++
+            }
+          }
+        }
+        btn[attrItem][i].disabled = count === 0
+      }
+    })
+    let selectedAttr = []
+    let selectedAttrValue = []
+    Object.keys(select).forEach(item => {
+      selectedAttr.push(item)
+      selectedAttrValue.push(select[item])
+    })
+
+    // 根据已选择的select中的每一个选项改变按钮状态
+    Object.keys(select).forEach(selectItem => {
+      Object.keys(btn).forEach(attrItem => {
+        if (selectItem !== attrItem) {
+          btn[attrItem].forEach((item, index) => {
+            let newAttrValue = [select[selectItem], item.value]
+            let count = 0
+            for (let i = 0; i < sku.skuList.length; i++) {
+              if (contain(sku.skuList[i].spec, newAttrValue)) {
+                if (parseInt(sku.skuList[i].inventory) !== 0) {
+                  count++
+                }
+              }
+            }
+            btn[attrItem][index].disabled = count === 0 || btn[attrItem][index].disabled
+          })
+        }
+      })
+    })
+
+
+    // 根据已选择的select改变按钮状态
+    if (selectedAttr.length !== Object.keys(btn).length) {
+      Object.keys(btn).forEach(attrItem => {
+        if (!selectedAttr.includes(attrItem)) {
+          btn[attrItem].forEach((item, index) => {
+            let newAttrValue = [...selectedAttrValue, item.value]
+            let count = 0
+            for (let i = 0; i < sku.skuList.length; i++) {
+              if (contain(sku.skuList[i].spec, newAttrValue)) {
+                if (parseInt(sku.skuList[i].inventory) !== 0) {
+                  count++
+                }
+              }
+            }
+            btn[attrItem][index].disabled = count === 0 || btn[attrItem][index].disabled
+          })
+        }
+      })
+    } else {
+      Object.keys(btn).forEach(attrItem => {
+        let newSelectValue = []
+        Object.keys(select).forEach(item => {
+          if (item !== attrItem) {
+            newSelectValue.push(select[item])
+          }
+        })
+        console.log(newSelectValue)
+        btn[attrItem].forEach((item, index) => {
+          if (!selectedAttrValue.includes(item.value)) {
+            newSelectValue.push(item.value)
+          }
+          console.log(newSelectValue)
+          let count = 0
+          for (let i = 0; i < sku.skuList.length; i++) {
+            if (contain(sku.skuList[i].spec, newSelectValue)) {
+              if (parseInt(sku.skuList[i].inventory) !== 0) {
+                count++
+              }
+            }
+          }
+          btn[attrItem][index].disabled = count === 0 || btn[attrItem][index].disabled
+          if (newSelectValue.length === selectedAttrValue.length) {
+            newSelectValue.pop()
+          }
+        })
+      })
+    }
     setSelectState(select)
     setBtnState(btn)
   }

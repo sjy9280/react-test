@@ -10,6 +10,11 @@ export const sidebar = [
     path: '/sku'
   },
   {
+    id: '3',
+    title: 'sku升级版',
+    path: '/sku-plus'
+  },
+  {
     id: '999',
     title: '测试页面',
     path: '/test'

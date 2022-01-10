@@ -1,0 +1,39 @@
+.confirm-button {
+  margin-left: 70px;
+}
+
+.choose-sku{
+  width: 500px;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  margin-left: 70px;
+
+  .sku-attr{
+    margin-bottom: 5px;
+
+    .sku-btn {
+      background-color: #FFFFFF;
+      border: 1px solid #f0f0f0;
+      border-radius: 12px;
+      padding: 5px 15px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+  }
+
+}
+
+
+.selected {
+  color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+.disabled {
+  color: grey;
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}

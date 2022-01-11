@@ -135,13 +135,83 @@ function ChooseSkuPlus(props) {
     }
     setCurrentSelectState(newCurrentSelected)
     setSpecState(newSpecs)
+    calculateUnAvailableSpecItem(newCurrentSelected)
 
   }
 
-  // 计算不能够到达的路径
-  const calculateUnAvailableSpecItem = () => {
-    let unAvailableSpecItemList = []
-    let selectedCount = Object.keys(currentSelectState).length
+  // 判断是否有交集，计算出不能到达的按钮
+  const calculateUnAvailableSpecItem = (currentSelect) => {
+    let unAvailableState = Array(specListState.length).fill(true)
+    let chooseColumn = []
+    if (Object.keys(currentSelect).length === 0) {
+      changeBtnState(unAvailableState)
+      return
+    } else {
+      Object.keys(currentSelect).forEach(item => {
+        let index = specListState.indexOf(currentSelect[item])
+        chooseColumn.push(matrixState[index])
+      })
+    }
+    for (let i = 0; i < specListState.length; i++) {
+      const row = chooseColumn.map(col => col[i]).filter(t => t !== 1)
+      unAvailableState[i] = isItemEqual(row)
+    }
+
+    changeBtnState(unAvailableState)
+  }
+
+  /*
+ *  @param params
+ * 传入一个交集行，判断内部是否互相相等
+ */
+  const isItemEqual = (params) => {
+    if (params.includes(0)) return false;
+
+    let weight = -1;
+
+    // 找出权值
+    if (params.length) {
+      params.some(t => {
+        if (typeof t === 'number') weight = t
+        return typeof t === 'number'
+      })
+      if (weight === -1) { // 都是多权边数组的情况
+        return isArrayUnions(params)
+      }
+    }
+
+    return params.every(t => {
+      if (typeof t === 'number') {
+        return t === weight
+      } else {
+        return t.includes(weight)
+      }
+    })
+  }
+
+  /*
+   *  @param params
+   * 传入多个数组，判断是否有交集
+   */
+  const isArrayUnions = (params) => {
+    if (!params.length) return false;
+    return params[0].some(t => {
+      return params.every(_t => _t.includes(t))
+    })
+  }
+
+  const changeBtnState = (unAvailableState) => {
+    let newSpec = { ...specState }
+    specListState.forEach((specItem, index) => {
+      Object.keys(newSpec).forEach(specKey => {
+        newSpec[specKey].forEach(spec => {
+          if (spec.value === specItem) {
+            spec.disabled = !unAvailableState[index]
+          }
+        })
+      })
+    })
+    setSpecState(newSpec)
   }
 
   useEffect(() => {

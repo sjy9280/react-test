@@ -29,7 +29,7 @@ function SkuPlus() {
           确认添加
         </Button>
       </div>
-      <ChooseSkuPlus skus={ skuState } specs={ specState }/>
+      <ChooseSkuPlus skus={ skuState.filter(sku => sku.inventory > 0) } specs={ specState }/>
     </div>
   )
 

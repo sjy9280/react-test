@@ -8,7 +8,19 @@ function CreateSkuPlus(props) {
   const { Option } = Select
   const { onChange } = props
 
-  const [skuAttrState, setSkuAttrState] = useState([])
+  const [skuAttrState, setSkuAttrState] = useState([{
+    name: '颜色',
+    key: 1,
+    values: ['黑色', '白色']
+  }, {
+    name: '尺寸',
+    key: 2,
+    values: ['13.3', '15']
+  }, {
+    name: '存储',
+    key: 3,
+    values: ['128', '256']
+  }])
   const [columnsState, setColumnsState] = useState([])
   const [rowsState, setRowsState] = useState([])
 

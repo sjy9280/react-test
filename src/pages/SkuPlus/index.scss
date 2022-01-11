@@ -22,18 +22,18 @@
       cursor: pointer;
     }
 
+    .selected {
+      color: #40a9ff;
+      border-color: #40a9ff;
+    }
+
+    .disabled {
+      color: grey;
+      background-color: #d9d9d9;
+      cursor: not-allowed;
+    }
+
   }
 
 }
 
-
-.selected {
-  color: #40a9ff;
-  border-color: #40a9ff;
-}
-
-.disabled {
-  color: grey;
-  background-color: #f0f0f0;
-  cursor: not-allowed;
-}

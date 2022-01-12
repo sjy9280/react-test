@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import BlockTitle from "../../../Components/BlockTitle";
 import classNames from "classnames";
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, message } from "antd";
 
 function ChooseSkuPlus(props) {
   const { skus, specs } = props
@@ -133,10 +135,11 @@ function ChooseSkuPlus(props) {
     } else {
       delete newCurrentSelected[key]
     }
+
     setCurrentSelectState(newCurrentSelected)
     setSpecState(newSpecs)
     calculateUnAvailableSpecItem(newCurrentSelected)
-
+    getSkuInventory(newCurrentSelected)
   }
 
   // 判断是否有交集，计算出不能到达的按钮
@@ -156,7 +159,6 @@ function ChooseSkuPlus(props) {
       const row = chooseColumn.map(col => col[i]).filter(t => t !== 1)
       unAvailableState[i] = isItemEqual(row)
     }
-
     changeBtnState(unAvailableState)
   }
 
@@ -214,6 +216,69 @@ function ChooseSkuPlus(props) {
     setSpecState(newSpec)
   }
 
+  const getSkuInventory = (currentSelected) => {
+    if (Object.keys(currentSelected).length === Object.keys(specState).length) {
+      for (let i = 0; i < skus.length; i++) {
+        let flag = []
+        skus[i].properties.forEach(pro => {
+          pro.value === currentSelected[pro.name] ? flag.push(true) : flag.push(false)
+        })
+        if (flag.every(item => item)) {
+          setInventoryState(skus[i].inventory)
+          return
+        }
+      }
+    }
+    setInventoryState(0)
+  }
+
+  // 减少购买数量
+  function minusProduct() {
+    if (buyNumState <= 1) {
+      message.error('购买数量不可小于1', 1)
+    } else {
+      setBuyNumState(buyNumState - 1)
+    }
+  }
+
+  // 增加购买数量
+  function plusProduct() {
+    if (buyNumState >= inventoryState) {
+      message.error('购买数量不可大于库存量', 1)
+    } else {
+      setBuyNumState(buyNumState + 1)
+    }
+
+  }
+
+  // 加入购物车
+  function addToShopping() {
+    if (Object.keys(currentSelectState).length < Object.keys(specState).length) {
+      checkSku()
+    }
+  }
+
+  // 检查sku属性是否已选择
+  function checkSku() {
+    let attr = []
+    Object.keys(currentSelectState).forEach(item => {
+      attr.push(item)
+    })
+
+    let unselected = Object.keys(specState).filter(item => {
+      return !attr.includes(item)
+    })
+
+    let msg = ''
+    unselected.forEach(item => {
+      msg += item
+      msg += ','
+    })
+    msg = msg.substring(0, msg.length - 1)
+
+    message.error(msg + '未选择')
+  }
+
   useEffect(() => {
     initSpec()
   }, [skus])
@@ -242,6 +307,23 @@ function ChooseSkuPlus(props) {
                   </div>
                 )
               })
+            }
+            {
+              <div className={ 'buy-num-option' }>
+                <span>库存数量：{ inventoryState }</span>
+                <div>
+                  <MinusOutlined style={ { marginRight: 10 + 'px' } } onClick={ () => minusProduct() }/>
+                  <div className={ 'buy-num' }>{ buyNumState }</div>
+                  <PlusOutlined style={ { marginLeft: 10 + 'px' } } onClick={ () => plusProduct() }/>
+                </div>
+              </div>
+            }
+            {
+              <div className={ 'buy-btn' }>
+                <Button type="primary" shape="round" size={ 'large' }
+                        disabled={ buyNumState > inventoryState || inventoryState === 0 }
+                        onClick={ () => addToShopping() }>加入购物车</Button>
+              </div>
             }
           </div>
         ) : ''
